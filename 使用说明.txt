@@ -1,0 +1,24 @@
+一、格式转换工具
+
+在目录 software
+需要 php 支持，https://www.php.net/，下载解压，加入路径。
+
+1、把标准的 dsk 文件中的文件提取出来，以 vz 格式存放。
+转换长度98560字节dsk磁盘镜像中的文件到 vz 格式。
+php dsk2vz.php abc.dsk
+
+2、由一组 vz 文件生成 dsk 文件。
+php vz2dsk.php trg.dsk src1.vz src2.vz src3.vz ...
+
+
+二、软驱镜像下载上传工具
+
+需要一条 USB 串口线连接主机和 FPGA 开发板。
+由于未实现串口数据包错误重发功能，有时会出现上传下载停止问题。
+可执行文件是 windows 64位 文件格式。
+
+1、从开发板下载软盘镜像。
+download_dsk.exe COM5 dl.dsk
+
+2、上传软盘镜像至开发板。
+upload_dsk.exe COM5 tst.dsk
