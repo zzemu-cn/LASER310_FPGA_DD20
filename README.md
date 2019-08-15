@@ -2,7 +2,7 @@
 
 Welcome to LASER310_FPGA project. This project is an attempt to recreate the once famous VZ300/Laser310 computer in 80's on Altera Cyclone based FPGA boards.
 
-<img src="doc/images/Laser310onVGA.jpeg" alt="Laser310 on VGA" width="400"/>
+<img src="doc/floppy01.jpg" alt="Laser310 floppy emu" width="400"/>
 
 
 Features implemented:
@@ -19,8 +19,8 @@ Features implemented:
 11. Floppy emu support
 
 ***Screenshots***  
-IORQ output n,5 captured on GPIO1  
-<img src="doc/floppy_01.jpg" alt="IORQ on output"/>  
+<img src="doc/floppy02.jpg" alt="IORQ on output" width="400"/>  
+<img src="doc/floppy03.jpg" alt="IORQ on output" width="400"/>  
 
 ***Supported boards***
 
