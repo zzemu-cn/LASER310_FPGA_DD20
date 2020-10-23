@@ -47,7 +47,7 @@ input				iRST_N;
 
 //output [7:0] sample_high8;
 
-(*keep*)wire				BCK;
+(*keep*)wire				BCLK;
 (*keep*)wire		[4:0]	BCLK_CONT;
 (*keep*)wire				LRCK;
 
