@@ -80,15 +80,10 @@ $rom_lst	=	[
 	[	"vtech/vzdosv12.rom",			8*4,	],	// 8K
 	[	"vtech/char.rom", 				8*4+2,	],	// 8K
 
-//	[	"zx/zx80/zx80.rom", 			12*4,	],	// 8K
-//	[	"zx/zx80/aszmic.rom", 			12*4+1,	],	// 8K
+	[	"vtech/vzdosv12_patch.rom",		9*4,	],	// 8K
+	[	"vtech/char.rom", 				9*4+2,	],	// 8K
 
-//	[	"zx/pc8300/8300_org.rom", 		13*4,	],	// 8K
-//	[	"zx/zx81/zx81.rom", 			13*4+2,	],	// 8K
-//	[	"zx/lambda/lambda.rom", 		14*4,	],	// 8K
-//	[	"zx/LAM10061.BIN", 				14*4+2,	],	// 8K
-//	[	"zx/8300_fnt.bin", 				15*4+2,	],	// 8K
-
+/*
 	//	bank 16 ... 31
 	//	16K 4 D E F
 	[	"autostart/Wordpro.bin",		16*4,	],	// 16K
@@ -108,62 +103,13 @@ $rom_lst	=	[
 	[	"vz/MONITORR.vz", 				39*4,	],	// 16K
 	[	"vz/PUCK MAN.vz",				40*4,	],	// 16K
 	[	"vz/Space_Ram.vz", 				41*4,	],	// 16K
+*/
+	//	bank 64 80
 
-	//	bank 64 80 100000H
-	//  CEC-I 1.1
-//	[	"CEC-I/MX231024-0059.bin",				64*4,	],	// 128K CEC-I 国标GB2312字库 16 x 16 点阵
-//	[	"CEC-I/MX231024-0060.bin", 				72*4,	],	// 128K 
-//	[	"CEC-I/U7.TMM24256AP.bin",				80*4,	],	// 32K
-//	[	"CEC-I/U35.TMM24256AP.bin", 			82*4,	],	// 32K
-//	[	"CEC-I/U13.9433C-0202.RCL-ZH-32.bin", 	84*4,	],	// 4K 字符点阵字模 8 x 8 点阵
-
-	//	bank 96 112 180000H
-	//  CEC-I 1.21
-//	[	"CEC-I/MX231024-0059.bin",				96*4,	],	// 128K CEC-I 国标GB2312字库 16 x 16 点阵
-//	[	"CEC-I/MX231024-0060.bin", 				104*4,	],	// 128K 
-//	[	"CEC-I/u7.alt",							112*4,	],	// 32K
-//	[	"CEC-I/u35.alt", 						114*4,	],	// 32K
-//	[	"CEC-I/U13.9433C-0202.RCL-ZH-32.bin", 	116*4,	],	// 4K 字符点阵字模 8 x 8 点阵
-
-	//	bank 128 144 200000H
-	//  CEC-E
-//	[	"CEC-E/u4.c3001.531000.bin",			128*4,	],	// 128K CEC-E 国标GB2312字库 16 x 16 点阵
-//	[	"CEC-E/u7.c3002.531000.bin", 			136*4,	],	// 128K 
-//	[	"CEC-E/u20.rom10.27256.bin", 			144*4,	],	// 32K
-//	[	"CEC-E/u14.rom20.27256.bin",			146*4,	],	// 32K
-//	[	"CEC-E/u13.9433c-0202.rcl-zh-32.bin", 	148*4,	],	// 4K 字符点阵字模 8 x 8 点阵
-
-	//	bank 128 144 200000H
-	//  CEC-M
-//	[	"CEC-M/MX231024-0059.bin",				128*4,	],	// 128K CEC-I 国标GB2312字库 16 x 16 点阵
-//	[	"CEC-M/MX231024-0060.bin", 				136*4,	],	// 128K 
-//	[	"CEC-M/u8_st_27256fi_042f.bin",			144*4,	],	// 32K
-//	[	"CEC-M/u35_st_27256fi_a53a.bin", 		146*4,	],	// 32K
-//	[	"CEC-M/U13.9433C-0202.RCL-ZH-32.bin", 	148*4,	],	// 4K 字符点阵字模 8 x 8 点阵
-
-	//	bank 160 176 280000H
-	//	CEC-2000
-//	[	"CEC-2000/u18.wl.lo.c3001.bin",			160*4,	],	// 128K CEC-2000 国标GB2312字库 16 x 16 点阵 内容同 CEC-E
-//	[	"CEC-2000/u27.wl.hi.c3002.bin", 		168*4,	],	// 128K 
-//	[	"CEC-2000/u34.rom1.27256.bin",			176*4,	],	// 32K
-//	[	"CEC-2000/u41.rom2.27256.bin", 			178*4,	],	// 32K
-//	[	"CEC-2000/u13.9433c-0202.rcl-zh-32.bin",180*4,	],	// 4K 字符点阵字模 8 x 8 点阵
-
-	// bank 192 208 300000H
-
-	// bank 224 240 380000H
-	// test
-//	[	"DOS.nib",								224*4,	],	// APPLE II  380000H
-//	[	"LodeRunner.nib",						240*4,	],	// APPLE II  3C0000H
+	//	bank 96
 ];
 
-
-// 4MB = 4096KB = 256 * 4 * 4KB
-
-// 512KB = 32 * 4 * 4KB
-
-
-$bin_buf = str_repeat("\x00", 128*1024*16);
+$bin_buf = str_repeat("\x00", 16*1024*16);
 //echo strlen($bin_buf);
 // 读文件
 
@@ -222,4 +168,5 @@ echo "out : $hex_file_name\n";
 
 //file_put_contents($hex_file_name,bin2ihex($bin_buf));
 file_put_contents($hex_file_name,bin2asciihex($bin_buf));
+
 

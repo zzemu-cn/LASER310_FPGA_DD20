@@ -682,7 +682,7 @@ wire				VGA_CLK;
 
 // keyboard
 reg		[4:0]		KB_CLK_CNT;
-reg					KB_CLK;
+wire				KB_CLK;
 
 wire	[7:0]		KEY_DATA;
 wire				KEY_PRESSED;
@@ -847,7 +847,11 @@ always @(posedge BASE_CLK or negedge RESET_N)
 		LATCHED_DOSROM_EN		<=	1'b1;
 
 		LATCHED_BANK_0000		<=	{8'b0};
-		LATCHED_BANK_4000		<=	{8'b0};
+
+		//vzdosv12.rom
+		//LATCHED_BANK_4000		<=	{8'b0000_0000};
+		//zdosv12_patch.rom
+		LATCHED_BANK_4000		<=	{8'b0000_0001};
 
 		//LATCHED_BANK_0000		<=	{5'b0,SWITCH[6:4]};
 		//LATCHED_BANK_4000		<=	{5'b0,SWITCH[9:7]};
@@ -1488,9 +1492,10 @@ initial
 
 always @ (posedge CLK50MHZ)
 begin
-	KB_CLK			<=	KB_CLK_CNT[4];
 	KB_CLK_CNT		<=	KB_CLK_CNT + 1;		//	50/32 = 1.5625 MHz
 end
+
+assign	KB_CLK		=	KB_CLK_CNT[4];
 
 
 assign KEY_DATA[7] = 1'b1;	// 没有空置，具体用途没有理解
@@ -1710,7 +1715,6 @@ reg trap_clk;
 always @(posedge CPU_CLK)
 	begin
 		// 数据读取点
-
 /*
 		// 读取之前
 		trap_clk <=	(
@@ -1753,7 +1757,7 @@ always @(posedge CPU_CLK)
 			LATCHED_CPU_A==16'h5E7D
 			);
 */
-
+/*
 		trap_clk <=	(
 			LATCHED_CPU_A==16'h54CB
 			|| LATCHED_CPU_A==16'h56DF || LATCHED_CPU_A==16'h57FB
@@ -1761,6 +1765,7 @@ always @(posedge CPU_CLK)
 			// 读取数据 读取失败 读取成功
 			|| LATCHED_CPU_A==16'h5E7D || LATCHED_CPU_A==16'h5E9F || LATCHED_CPU_A==16'h5EA2
 			);
+*/
 
 /*
 		trap_clk <=	(
@@ -1780,9 +1785,9 @@ always @(posedge CPU_CLK)
 			LATCHED_CPU_A	<=	CPU_A;
 	end
 
-// 读取完128个数据准备校验
-(*keep*)wire trap =	(LATCHED_CPU_A==16'h5E88);
-
+wire trap =	1'b0;
+//(*keep*)wire trap =	(LATCHED_CPU_A==16'h554B);	// 读取磁盘 IDAM 中的 FE
+//(*keep*)wire trap =	(LATCHED_CPU_A==16'h5E88);	// 读取完128个数据准备校验
 //(*keep*)wire trap =	(LATCHED_CPU_A==16'h4241);	// ERROR 寄存器a存放错误代码
 
 

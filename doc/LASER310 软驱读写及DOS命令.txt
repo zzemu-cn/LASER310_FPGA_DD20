@@ -4,9 +4,67 @@ VZ300-tech-ref-man.pdf
 vzem_22.zip VZDIO.C
 vz300_review.pdf
 
-以下内容是从软件执行效果反推出来的，未在实际软驱环境下验证。
 
 -----------------------------------------------------------------
+根据在物理软驱和软驱卡的调试跟踪，得到的结论
+-----------------------------------------------------------------
+
+2020-10-23
+
+纠正以前的错误认识，POLLING区的长度并不是固定，只是根据读取的信号进行反转，当主机有读入操作时，POLLING置零。
+软盘上记录的信号，就是简单的主机写入信号。读取时，软驱卡会在数据反转时产生1.125us的方波信号。
+物理软驱抓到的数据，过0有1.125us的上升沿：
+
+按照CPU频率计数，时钟区域长度 28，数据区域长度 87
+磁盘记录的数据在翻转时，经软驱卡处理后，产生长度2.5时钟周期左右的信号。
+
+记录每位的长度相同。
+记录数据0，需要写入的信号翻转1次，记录1个1us方波信号。
+记录数据1，需要写入的信号翻转2次，记录2个1us方波信号。
+
+调试软驱仿真部分，可以在仿真软驱RAM跟踪写入内容，例如在格式化时查看写入内容。
+FDC_SIG_CLK <= FDC_RAM_W;
+
+
+跟踪读取信号，来判断仿真软驱工作状态，例如在 IDAM 程序特定位置开始记录。例如：
+
+// 读取之前
+trap_clk <=	(
+	// 读取 0x80 0x80  0xFE 0xE7 0x18 0xC3  扇区
+	LATCHED_CPU_A==16'h5441 || LATCHED_CPU_A==16'h54C6
+ || LATCHED_CPU_A==16'h554B || LATCHED_CPU_A==16'h55D0 || LATCHED_CPU_A==16'h5655 || LATCHED_CPU_A==16'h56DA
+ || LATCHED_CPU_A==16'h57EF
+
+	// 读取 0x80 0x80  0xC3 0x18 0xE7 0xFE
+ || LATCHED_CPU_A==16'h5B60 || LATCHED_CPU_A==16'h5BE5
+ || LATCHED_CPU_A==16'h5C6A || LATCHED_CPU_A==16'h5CEF || LATCHED_CPU_A==16'h5D74 || LATCHED_CPU_A==16'h5DF9
+
+	// 读取数据 读取失败 读取成功
+ || LATCHED_CPU_A==16'h5E7D || LATCHED_CPU_A==16'h5E9F || LATCHED_CPU_A==16'h5EA2
+	);
+
+// 读取成功
+trap_clk <=	(
+	// 找到 0x80 0x80  0xFE 0xE7 0x18 0xC3  扇区
+	LATCHED_CPU_A==16'h5446 || LATCHED_CPU_A==16'h54C8 || LATCHED_CPU_A==16'h54CB
+ || LATCHED_CPU_A==16'h5550 || LATCHED_CPU_A==16'h55D5 || LATCHED_CPU_A==16'h565A || LATCHED_CPU_A==16'h56DF
+ || LATCHED_CPU_A==16'h57FB
+
+	// 找到 0x80 0x80  0xC3 0x18 0xE7 0xFE
+ || LATCHED_CPU_A==16'h5B65 || LATCHED_CPU_A==16'h5BEA
+ || LATCHED_CPU_A==16'h5C6F || LATCHED_CPU_A==16'h5CF4 || LATCHED_CPU_A==16'h5D79 || LATCHED_CPU_A==16'h5DFE
+
+	// 读取数据 读取失败 读取成功
+ || LATCHED_CPU_A==16'h5E7D || LATCHED_CPU_A==16'h5E9F || LATCHED_CPU_A==16'h5EA2
+	);
+
+// 使用后，系统不稳定。用 FDC_SIG_CLK 替代
+trap_clk <=	FDC_RAM_W;	//磁盘写
+
+(*keep*)wire trap =	(LATCHED_CPU_A==16'h554B);
+
+-----------------------------------------------------------------
+以下内容是从软件执行效果反推出来的，未在实际软驱环境下验证。
 -----------------------------------------------------------------
 
 2019-08-09
